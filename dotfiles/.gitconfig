@@ -1,0 +1,10 @@
+[user]
+	name = Nei Cardoso de Oliveira Neto
+	email = nei.neto@hotmail.com
+[core]
+	editor = nano
+	pager = less
+[help]
+	autocorrect = 5
+
+

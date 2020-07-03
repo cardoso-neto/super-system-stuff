@@ -1,6 +1,10 @@
-ln -nfs ~/repos/super-system-stuff/dotfiles/.gitconfig ~/.gitconfig;
-source ~/.bash_profile;
+dotfiles_folder=$(realpath ./dotfiles)
 
-# todo: use rsync -avh
+ln -nfs "${dotfiles_folder}/.gitconfig" ~/.gitconfig;
+ln -nfs "${dotfiles_folder}/.bash_aliases" ~/.bash_aliases;
+
+source ~/.bashrc;
+
+# todo: use rsync -avh maybe? idk
 
 

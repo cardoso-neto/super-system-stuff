@@ -3,17 +3,17 @@ mkdir ~/apps
 sudo add-apt-repository ppa:git-core/ppa  # latest git
 sudo apt-add-repository -y ppa:cappelikan/ppa  # mainline (ukuu fork)
 
-sudo apt-get install -y \
+sudo apt-get --install-suggests install -y \
 	bmon \
 	byobu \
 	cowsay \
 	fortune \
-	git git-annex \
+	git git-annex gparted \
 	hollywood \
 	lolcat \
 	mainline \
 	numlockx \
-	screenfetch \
+	screenfetch sqlitebrowser \
 	terminator \
 	xclip xkbset
 
@@ -21,7 +21,8 @@ sudo snap install --classic code
 sudo snap install --classic shotcut
 sudo snap install --classic sublime-text
 sudo snap install \
-code chromium vlc spotify gimp htop postman youtube-dl plexmediaserver
+	chromium code \
+	gimp htop plexmediaserver postman spotify vlc youtube-dl
 
 
 # Change GtkIMContextSimple (emoji input) from "['<Control><Shift>e']"
@@ -40,11 +41,11 @@ popd
 nautilus -q
 
 # install Anaconda
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
-bash ~/miniconda.sh -b -p $HOME/miniconda
-rm ~/anaconda.sh
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/Downloads/miniconda.sh
+bash ~/Downloads/miniconda.sh -b -p $HOME/miniconda
+rm ~/Downloads/miniconda.sh
 ~/miniconda/bin/conda init
 bash
 conda --version
 
-pip install gpustat
+pip install gpustat pylint 

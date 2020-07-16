@@ -61,3 +61,5 @@ gsettings set com.github.stunkymonkey.nautilus-open-any-terminal terminal termin
 
 # restart nautilus for py-extensions to reload
 nautilus -q
+
+bash ./installers/JD2Setup_x64.sh

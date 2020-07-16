@@ -13,4 +13,6 @@
 	editor = nano
 	pager = less
 [help]
-	autocorrect = 5
+	autocorrect = 30
+[pull]
+	ff = only

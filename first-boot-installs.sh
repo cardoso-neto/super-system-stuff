@@ -1,22 +1,25 @@
-exit
 mkdir ~/apps
 
-sudo add-apt-repository ppa:git-core/ppa  # latest git
+sudo add-apt-repository -y ppa:git-core/ppa  # latest git
 sudo apt-add-repository -y ppa:cappelikan/ppa  # mainline (ukuu fork)
+sudo add-apt-repository -y ppa:alessandro-strada/google-drive-ocamlfuse-beta  # https://github.com/astrada/google-drive-ocamlfuse
 
 sudo apt-get --install-suggests install -y \
-	bmon \
-	byobu \
-	cowsay \
+	bmon \  # network speedometer
+	byobu \  # terminal application
+	cowsay \  # echo inside an ASCII cow
 	fortune \
-	git git-annex gparted \
-	hollywood \
-	lolcat \
-	mainline \
-	numlockx \
+	google-drive-ocamlfuse git git-annex gparted \
+	hollywood \  # feel like you're a hollywood hacker
+	lolcat \  # rainbow-colored cat github.com/busyloop/lolcat
+	mainline \  # ubuntu kernel update utility (ukuu) replacement
+	numlockx \  # change numlock status programmatically
+	python-nautilus \  # add support for python extensions on nautilus
 	screenfetch sqlitebrowser \
-	terminator \
+	terminator \  # better terminal app
+	unrar \  # support for .rar archives
 	xclip xkbset
+
 
 sudo snap install --classic code
 sudo snap install --classic shotcut
@@ -30,20 +33,21 @@ sudo snap install \
 # so it won't interfere with Terminator's vertical split shortcut
 gsettings set org.freedesktop.ibus.panel.emoji hotkey "['<Control><Shift>j']"
 
+
 # install Anaconda
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/Downloads/miniconda.sh
 bash ~/Downloads/miniconda.sh -b -p $HOME/miniconda
 rm ~/Downloads/miniconda.sh
 ~/miniconda/bin/conda init
 bash
-conda --version
 
-pip install black gpustat pylint
+pip install \
+	black \
+	gpustat \
+	pylint
 
-# add support for python extensions
-sudo apt-get install python-nautilus
 
-# these two are equivalent
+# these two should be equivalent
 sudo apt-get install python3-gi
 pip install --user PyGObject
 
@@ -62,4 +66,15 @@ gsettings set com.github.stunkymonkey.nautilus-open-any-terminal terminal termin
 # restart nautilus for py-extensions to reload
 nautilus -q
 
+
+# JDownloader installation
 bash ./installers/JD2Setup_x64.sh
+
+
+# code extensions
+code --install-extension ms-python.python
+code --install-extension njpwerner.autodocstring
+code --install-extension njqdev.vscode-python-typehint
+code --install-extension CoenraadS.bracket-pair-colorizer-2
+code --install-extension Tyriar.sort-lines  # github.com/Tyriar/vscode-sort-lines
+

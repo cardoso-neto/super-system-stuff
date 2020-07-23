@@ -15,3 +15,9 @@ alias save-alias='echo alias"${1}"'
 
 # set mouse speed when using the Universal Access Mouse Keys feature
 alias set-fast-mouse-keys="xkbset ma 60 10 10 20 10"
+
+# have rm ask for confirmation everytime
+alias rm="rm -i"
+
+# better rm: trash files instead
+alias tt='gio trash'

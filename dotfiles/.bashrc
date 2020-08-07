@@ -146,6 +146,8 @@ export HISTFILE=~/.bash_eternal_history
 PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 # .inputrc hack enabling bash history search with arrows
-# https://askubuntu.com/questions/59846/bash-history-search-partial-up-arrow
+# https://askubuntu.com/a/475614
 #bind '"\e[A": history-search-backward'
 #bind '"\e[B": history-search-forward'
+
+export PATH=$PATH:~/.local/java/jre1.8.0_261/bin

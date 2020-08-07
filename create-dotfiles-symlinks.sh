@@ -9,7 +9,3 @@ ln -nfs "${dotfiles_folder}/.gitconfig" ~/.gitconfig;
 ln -nfs "${dotfiles_folder}/.inputrc" ~/.inputrc;
 
 source ~/.bashrc;
-
-# todo: use rsync -avh maybe? idk
-
-

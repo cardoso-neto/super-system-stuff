@@ -1,11 +1,16 @@
+set -x
+
 mkdir ~/apps
 
 sudo add-apt-repository -y ppa:alessandro-strada/google-drive-ocamlfuse-beta  # https://github.com/astrada/google-drive-ocamlfuse
+sudo add-apt-repository -y ppa:bashtop-monitor/bashtop  # bashtop
 sudo apt-add-repository -y ppa:cappelikan/ppa  # mainline (ukuu fork)
 sudo add-apt-repository -y ppa:git-core/ppa  # latest git
 sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test # so we can grab the latest versions of gcc https://wiki.ubuntu.com/ToolChain
 
 sudo apt-get install -y \
+	adb \  # android
+	bashtop \ # system monitor
 	bmon \  # network speedometer
 	byobu \  # terminal application
 	cowsay \  # echo inside an ASCII cow
@@ -13,8 +18,11 @@ sudo apt-get install -y \
 	fortune \  # print a fortune cookie sentence to stdout
 	fuse-zip \  # mount .zip files quickly https://bitbucket.org/agalanin/fuse-zip
 	gcc-10 \  # recent gnu c compiler
+	glances \  # system monitor
 	google-drive-ocamlfuse \  # mount GDrive 
-	git git-annex \
+	git \
+	git-annex \  # suggested: xdot bup magic-wormhole tahoe-lafs uftp youtube-dl
+	gitk \
 	gparted \  # disk partitioner
 	hollywood \  # feel like you're a hollywood hacker
 	lolcat \  # rainbow-colored cat github.com/busyloop/lolcat
@@ -24,6 +32,7 @@ sudo apt-get install -y \
 	screenfetch \
 	sqlitebrowser \  # gui to explore sqlite dbs
 	terminator \  # better terminal app
+	tor \
 	unrar \  # support for .rar archives
 	xclip \
 	xkbset
@@ -35,10 +44,11 @@ sudo snap install --classic sublime-text
 
 sudo snap install \
 	chromium code \
-	gimp \
+	gimp gnome-system-monitor \
 	htop \
 	plexmediaserver postman \
 	spotify \
+	tree \  # directory listing tool
 	vlc \
 	youtube-dl
 
@@ -58,6 +68,9 @@ bash ~/Downloads/miniconda.sh -b -p $HOME/miniconda
 rm ~/Downloads/miniconda.sh
 ~/miniconda/bin/conda init
 bash
+
+# latest git-annex built straight from Joey's tarballs
+conda create --name main --channel conda-forge python=3.8 git=2.28 git-annex=*=alldep*
 
 pip install \
 	black \
@@ -94,8 +107,17 @@ tar -xzf ./installers/jre-8u261-linux-x64.tar.gz !$
 
 # code extensions
 code --install-extension CoenraadS.bracket-pair-colorizer-2
+code --install-extension editorconfig.editorconfig
+code --install-extension magicstack.Chromodynamics  # https://github.com/MagicStack/Chromodynamics
+code --install-extension magicstack.magicpython  # https://github.com/MagicStack/MagicPython
 code --install-extension mhutchie.git-graph  # https://github.com/mhutchie/vscode-git-graph
 code --install-extension ms-python.python
 code --install-extension njpwerner.autodocstring
 code --install-extension njqdev.vscode-python-typehint
 code --install-extension Tyriar.sort-lines  # https://github.com/Tyriar/vscode-sort-lines
+
+
+# install nvm to manage npm/node.js
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+bash
+nvm install node  # install latest node.js and npm

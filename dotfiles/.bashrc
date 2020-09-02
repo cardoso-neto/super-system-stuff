@@ -151,3 +151,14 @@ PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 #bind '"\e[B": history-search-forward'
 
 export PATH=$PATH:~/.local/java/jre1.8.0_261/bin
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
+# https://stackoverflow.com/a/41386937/11615853
+# remove __pycache__ folders and .pyc files
+pyclean () {
+    find . -regex '^.*\(__pycache__\|\.py[co]\)$' -delete
+}

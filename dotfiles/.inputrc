@@ -1,6 +1,12 @@
 $include /etc/inputrc
 
+# https://askubuntu.com/questions/59846/bash-history-search-partial-up-arrow
 ## arrow up
 "\e[A":history-search-backward
 ## arrow down
 "\e[B":history-search-forward
+
+# https://askubuntu.com/questions/701824/getting-ctrl-backspace-to-delete-words-in-gnome-terminal-and-vim-insert-mo
+# for some reason, it's also picking up alt backspace
+## ctrl backspace
+"\C-H": backward-kill-word

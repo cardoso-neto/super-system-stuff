@@ -159,6 +159,7 @@ export NVM_DIR="$HOME/.nvm"
 
 # https://stackoverflow.com/a/41386937/11615853
 # remove __pycache__ folders and .pyc files
+# updated to also delete mypy caches and egg-info pip build leftovers
 pyclean () {
-    find . -regex '^.*\(__pycache__\|\.py[co]\)$' -delete
+    find . -regex '^.*\(__pycache__\|\.py[co]\|.mypy_cache.*\|egg-info.*\)$' -delete
 }

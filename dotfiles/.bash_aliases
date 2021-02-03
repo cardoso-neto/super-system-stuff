@@ -1,4 +1,4 @@
-alias cat=lolcat
+alias cat=cat
 
 alias cp-file-contents="xclip -sel c <"
 

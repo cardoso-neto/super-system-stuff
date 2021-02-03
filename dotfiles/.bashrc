@@ -150,16 +150,20 @@ PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 #bind '"\e[A": history-search-backward'
 #bind '"\e[B": history-search-forward'
 
-export PATH=$PATH:~/.local/java/jre1.8.0_261/bin
+export JAVA_HOME=~/.local/java/jdk-11.0.8+10
+export JDK_HOME=~/.local/java/jdk-11.0.8+10
+export PATH=$JAVA_HOME/bin:$PATH
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-
 # https://stackoverflow.com/a/41386937/11615853
 # remove __pycache__ folders and .pyc files
 # updated to also delete mypy caches and egg-info pip build leftovers
+# pytest cache folder as well
 pyclean () {
-    find . -regex '^.*\(__pycache__\|\.py[co]\|.mypy_cache.*\|egg-info.*\)$' -delete
+    find $1 -regex '^.*\(__pycache__\|\.py[co]\|.mypy_cache.*\|egg-info.*\|.pytest_cache.*\)$' -delete
 }
+
+[ -f "/home/gaius/.ghcup/env" ] && source "/home/gaius/.ghcup/env" # ghcup-env

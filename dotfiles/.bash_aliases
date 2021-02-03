@@ -21,3 +21,5 @@ alias rm="rm -i"
 
 # better rm: trash files instead
 alias tt='gio trash'
+
+alias dad-joke='curl -s https://icanhazdadjoke.com/ | cowsay | lolcat'

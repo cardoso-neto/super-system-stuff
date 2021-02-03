@@ -1,14 +1,20 @@
 [user]
 	name = Nei Cardoso de Oliveira Neto
 	email = nei.neto@hotmail.com
+	signingkey = D4AA22FDBA9CDB1F08060547EAC01C09B593C28A
 [alias]
 	authors = shortlog -sne
 	fast-forward-branch = "!git merge-base --is-ancestor $1 $2 && git branch -D $1 && git branch $1 $2 && echo \"Successfully created ${1} tracking ${2}\" #"
 	find-files = "log --all --name-only --"
 	l = log --oneline --graph
 	lfs-scrub = "!rm -rf .git/lfs/objects"
+	ls-non-annexed-files = "!~/apps/ls-non-annexed-files.sh"
 	s = status --short
 	tracking = "for-each-ref --sort upstream --format='%(refname:short)%09<- %(upstream:short)' refs/heads"
+	pushall = !git remote | xargs -L1 git push --all
+	wdiff = diff --color-words
+[commit]
+	gpgSign = true
 [core]
 	editor = nano
 	pager = less
@@ -16,3 +22,5 @@
 	autocorrect = 30
 [pull]
 	ff = only
+[init]
+	defaultBranch = master

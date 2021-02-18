@@ -1,43 +1,40 @@
 set -x
 
-mkdir ~/apps
 
-sudo add-apt-repository -y ppa:alessandro-strada/google-drive-ocamlfuse-beta  # https://github.com/astrada/google-drive-ocamlfuse
+sudo apt-get install -y adb  # android
 # sudo add-apt-repository -y ppa:bashtop-monitor/bashtop  # bashtop
-sudo apt-add-repository -y ppa:cappelikan/ppa  # mainline (ukuu fork)
-sudo add-apt-repository -y ppa:git-core/ppa  # latest git
+# sudo apt-get install -y bashtop \ # system monitor
+sudo apt-get install -y bmon  # network speedometer
+sudo apt-get install -y byobu  # terminal application
+sudo apt-get install -y cowsay  # echo inside an ASCII cow
+sudo apt-get install -y dconf-editor  # gui to edit dconf settings
+sudo apt-get install -y exfat-utils exfat-fuse  # exfat filesystem stuff
+sudo apt-get install -y fortune  # print a fortune cookie sentence to stdout
+sudo apt-get install -y fuse-zip  # mount .zip files quickly https://bitbucket.org/agalanin/fuse-zip
 sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test # so we can grab the latest versions of gcc https://wiki.ubuntu.com/ToolChain
-
-sudo apt-get install -y \
-	adb \  # android
-	# bashtop \ # system monitor
-	bmon \  # network speedometer
-	byobu \  # terminal application
-	cowsay \  # echo inside an ASCII cow
-	dconf-editor \  # gui to edit dconf settings
-	exfat-utils exfat-fuse \  # exfat filesystem stuff
-	fortune \  # print a fortune cookie sentence to stdout
-	fuse-zip \  # mount .zip files quickly https://bitbucket.org/agalanin/fuse-zip
-	gcc-10 \  # recent gnu c compiler
-	glances \  # system monitor
-	google-drive-ocamlfuse \  # mount GDrive 
-	git \
-	git-annex \  # suggested: xdot bup magic-wormhole tahoe-lafs uftp youtube-dl
-	gitk \
-	gparted \  # disk partitioner
-	hollywood \  # feel like you're a hollywood hacker
-	lolcat \  # rainbow-colored cat github.com/busyloop/lolcat
-	mainline \  # ubuntu kernel update utility (ukuu) replacement
-	numlockx \  # change numlock status programmatically
-	python-nautilus \  # add support for python extensions on nautilus
-	screenfetch \
-	sqlitebrowser \  # gui to explore sqlite dbs
-	texlive-full \ # http://tug.org/texlive/
-	terminator \  # better terminal app
-	tor \
-	unrar \  # support for .rar archives
-	xclip \
-	xkbset \
+sudo apt-get install -y gcc-10  # recent gnu c compiler
+sudo add-apt-repository -y ppa:git-core/ppa  # latest git
+sudo apt-get install -y git
+sudo apt-get install -y glances  # system monitor
+sudo add-apt-repository -y ppa:alessandro-strada/google-drive-ocamlfuse-beta  # https://github.com/astrada/google-drive-ocamlfuse
+sudo apt-get install -y google-drive-ocamlfuse  # mount GDrive 
+sudo apt-get install -y git-annex  # suggested: xdot bup magic-wormhole tahoe-lafs uftp youtube-dl
+sudo apt-get install -y gitk  # visual tool for git repos
+sudo apt-get install -y gparted  # disk partitioner
+sudo apt-get install -y hollywood  # feel like you're a hollywood hacker
+sudo apt-get install -y lolcat  # rainbow-colored cat github.com/busyloop/lolcat
+sudo apt-add-repository -y ppa:cappelikan/ppa  # mainline (ukuu fork)
+sudo apt-get install -y mainline  # ubuntu kernel update utility (ukuu) replacement
+sudo apt-get install -y numlockx  # change numlock status programmatically
+sudo apt-get install -y python-nautilus  # add support for python extensions on nautilus
+sudo apt-get install -y screenfetch
+sudo apt-get install -y sqlitebrowser  # gui to explore sqlite dbs
+sudo apt-get install -y texlive-full # http://tug.org/texlive/
+sudo apt-get install -y terminator  # better terminal app
+sudo apt-get install -y tor
+sudo apt-get install -y unrar  # support for .rar archives
+sudo apt-get install -y xclip  # copy files to the clipboards
+sudo apt-get install -y xkbset 
 
 
 # docker stuff
@@ -67,16 +64,17 @@ sudo snap install --classic shotcut
 sudo snap install --classic slack
 sudo snap install --classic sublime-text
 
-sudo snap install \
-	chromium code \
-	gimp gnome-system-monitor \
-	htop \
-	plexmediaserver postman \
-	spotify \
-	tree \  # directory listing tool
-	vlc \
-	youtube-dl
-
+sudo snap install chromium
+sudo snap install gimp 
+sudo snap install gnome-system-monitor
+sudo snap install htop
+sudo snap install insomnia  # http testing tool like Postman
+sudo snap install plexmediaserver
+sudo snap install postman
+sudo snap install spotify
+sudo snap install tree  # directory listing tool
+sudo snap install vlc
+sudo snap install youtube-dl
 
 # using multiple gcc versions https://linuxize.com/post/how-to-install-gcc-compiler-on-ubuntu-18-04/
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100
@@ -108,7 +106,7 @@ pip install \
 pip install --user PyGObject
 
 # install nautilus-copypath extension to add "copy path" to the context menu of a file
-pushd ~/apps
+pushd /usr/local/src
 git clone https://github.com/ronen25/nautilus-copypath nautilus-copypath
 mkdir -p ~/.local/share/nautilus-python/extensions
 cp ./nautilus-copypath/nautilus-copypath.py ~/.local/share/nautilus-python/extensions/
@@ -138,6 +136,7 @@ bash ./installers/JD2Setup_x64.sh
 code --install-extension CoenraadS.bracket-pair-colorizer-2
 code --install-extension eamodio.gitlens  # git lens
 code --install-extension editorconfig.editorconfig
+code --install-extension fabiospampinato.vscode-todo-plus  # .todo files
 code --install-extension haskell.haskell
 code --install-extension james-yu.latex-workshop  # https://github.com/James-Yu/LaTeX-Workshop
 code --install-extension magicstack.Chromodynamics  # https://github.com/MagicStack/Chromodynamics
@@ -149,7 +148,6 @@ code --install-extension njpwerner.autodocstring
 code --install-extension njqdev.vscode-python-typehint
 code --install-extension Tyriar.sort-lines  # https://github.com/Tyriar/vscode-sort-lines
 code --install-extension vscjava.vscode-java-pack  # Java Extension Pack
-
 
 # install nvm to manage npm/node.js
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
@@ -168,3 +166,6 @@ ipfs config --json Swarm.ConnMgr.HighWater 250
 
 # Haskell env manager. Interactive installer
 curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+
+# rclone https://rclone.org/install/
+curl https://rclone.org/install.sh | sudo bash

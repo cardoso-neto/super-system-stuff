@@ -9,6 +9,7 @@ sudo apt-get install -y byobu  # terminal application
 sudo apt-get install -y cowsay  # echo inside an ASCII cow
 sudo apt-get install -y dconf-editor  # gui to edit dconf settings
 sudo apt-get install -y exfat-utils exfat-fuse  # exfat filesystem stuff
+sudo apt install fonts-firacode  # font with programming ligatures
 sudo apt-get install -y fortune  # print a fortune cookie sentence to stdout
 sudo apt-get install -y fuse-zip  # mount .zip files quickly https://bitbucket.org/agalanin/fuse-zip
 sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test # so we can grab the latest versions of gcc https://wiki.ubuntu.com/ToolChain
@@ -134,6 +135,7 @@ bash ./installers/JD2Setup_x64.sh
 
 # code extensions
 code --install-extension CoenraadS.bracket-pair-colorizer-2
+code --install-extension davidanson.vscode-markdownlint  # .md linter
 code --install-extension eamodio.gitlens  # git lens
 code --install-extension editorconfig.editorconfig
 code --install-extension fabiospampinato.vscode-todo-plus  # .todo files
@@ -146,8 +148,11 @@ code --install-extension ms-python.python
 code --install-extension ms-vsliveshare.vsliveshare  # official liveshare
 code --install-extension njpwerner.autodocstring
 code --install-extension njqdev.vscode-python-typehint
+code --install-extension PKief.material-icon-theme
 code --install-extension Tyriar.sort-lines  # https://github.com/Tyriar/vscode-sort-lines
 code --install-extension vscjava.vscode-java-pack  # Java Extension Pack
+code --install-extension yzhang.markdown-all-in-one  # .md macros and stuff
+
 
 # install nvm to manage npm/node.js
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash

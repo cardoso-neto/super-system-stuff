@@ -1,26 +1,4 @@
 {
-    "workbench.colorTheme": "Monokai",
-    "editor.suggestSelection": "first",
-    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-    "vsintellicode.features.python.deepLearning": "enabled",
-    "editor.rulers": [
-        79,
-        88,
-        100,
-    ],
-    "java.home": "/home/gaius/.local/java/jdk-14.0.2+12/",
-    "jupyter.interactiveWindowMode": "perFile",
-    "window.zoomLevel": 0,
-    "[python]": {
-        "editor.defaultFormatter": "ms-python.python",
-    },
-    "pylance.insidersChannel": "daily",
-    "python.analysis.completeFunctionParens": true,
-    "python.analysis.typeCheckingMode": "basic",
-
-    "python.formatting.provider": "black",
-    "python.languageServer": "Pylance",
-
     "autoDocstring.docstringFormat": "sphinx",
     "autoDocstring.generateDocstringOnEnter": true,
     "autoDocstring.includeExtendedSummary": false,
@@ -28,17 +6,50 @@
     "autoDocstring.startOnNewLine": true, //New line before summary placeholder
     "autoDocstring.guessTypes": true,
     "autoDocstring.quoteStyle": "\"\"\"",
+
     "gitlens.codeLens.scopes": [
         "document"
     ],
-    "workbench.activityBar.visible": true,
-    "workbench.statusBar.visible": true,
-    "window.menuBarVisibility": "default",
-    "editor.minimap.enabled": true,
 
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+    "editor.fontWeight": "450", // 300 light, 400 regular, 500 medium, 600 bold
+    "editor.minimap.enabled": true,
+    "editor.rulers": [
+        79,
+        88,
+        100,
+    ],
+    "editor.suggestSelection": "first",
+
+    "java.home": "/home/gaius/.local/java/jdk-14.0.2+12/",
+    "jupyter.interactiveWindowMode": "perFile",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.python",
+    },
+    "pylance.insidersChannel": "daily",
+    "python.analysis.completeFunctionParens": true,
+    "python.analysis.typeCheckingMode": "basic",
+    "python.formatting.provider": "black",
+    "python.languageServer": "Pylance",
+    
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "vsintellicode.features.python.deepLearning": "enabled",
+    "window.menuBarVisibility": "default",
+    "workbench.activityBar.visible": true,
+    "workbench.colorTheme": "Monokai",
+    "workbench.statusBar.visible": true,
+    "workbench.editorAssociations": [
+        {
+            "viewType": "jupyter.notebook.ipynb",
+            "filenamePattern": "*.ipynb"
+        }
+    ],
+    "liveshare.authenticationProvider": "GitHub",
+    "workbench.iconTheme": "material-icon-theme",
     
     // "editor.semanticTokenColorCustomizations": {
-    //     "[One Dark Pro]": { // Apply to this theme only
+        //     "[One Dark Pro]": { // Apply to this theme only
     //         "enabled": true,
     //         "rules": {
     //             "magicFunction:python": "#ee0000",

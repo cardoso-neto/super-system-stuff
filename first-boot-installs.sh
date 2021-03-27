@@ -38,28 +38,6 @@ sudo apt-get install -y xclip  # copy files to the clipboards
 sudo apt-get install -y xkbset 
 
 
-# docker stuff
-sudo apt-get install \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg-agent \
-    software-properties-common
-
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-
-sudo add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   $(lsb_release -cs) \
-   stable"
-
-sudo apt-get install docker-ce docker-ce-cli containerd.io
-
-# docker-compose
-sudo curl -L "https://github.com/docker/compose/releases/download/1.28.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod ug+x /usr/local/bin/docker-compose
-
-
 sudo snap install --classic code
 sudo snap install --classic shotcut
 sudo snap install --classic slack
@@ -73,9 +51,11 @@ sudo snap install insomnia  # http testing tool like Postman
 sudo snap install plexmediaserver
 sudo snap install postman
 sudo snap install spotify
+sudo snap install telegram-desktop
 sudo snap install tree  # directory listing tool
 sudo snap install vlc
 sudo snap install youtube-dl
+
 
 # using multiple gcc versions https://linuxize.com/post/how-to-install-gcc-compiler-on-ubuntu-18-04/
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100
@@ -94,7 +74,7 @@ rm ~/Downloads/miniconda.sh
 bash
 
 # latest git-annex built straight from Joey's tarballs
-conda create --name main --channel conda-forge python=3.8 git=2.28 git-annex=*=alldep*
+conda create --name main --channel conda-forge python=3.8 git git-annex=*=alldep*
 
 pip install \
 	black \
@@ -131,27 +111,6 @@ tar -xzf ./installers/OpenJDK14U-jdk_x64_linux_hotspot_14.0.2_12.tar.gz -C !$
 
 # JDownloader installation
 bash ./installers/JD2Setup_x64.sh
-
-
-# code extensions
-code --install-extension CoenraadS.bracket-pair-colorizer-2
-code --install-extension davidanson.vscode-markdownlint  # .md linter
-code --install-extension eamodio.gitlens  # git lens
-code --install-extension editorconfig.editorconfig
-code --install-extension fabiospampinato.vscode-todo-plus  # .todo files
-code --install-extension haskell.haskell
-code --install-extension james-yu.latex-workshop  # https://github.com/James-Yu/LaTeX-Workshop
-code --install-extension magicstack.Chromodynamics  # https://github.com/MagicStack/Chromodynamics
-code --install-extension magicstack.magicpython  # https://github.com/MagicStack/MagicPython
-code --install-extension mhutchie.git-graph  # https://github.com/mhutchie/vscode-git-graph
-code --install-extension ms-python.python
-code --install-extension ms-vsliveshare.vsliveshare  # official liveshare
-code --install-extension njpwerner.autodocstring
-code --install-extension njqdev.vscode-python-typehint
-code --install-extension PKief.material-icon-theme
-code --install-extension Tyriar.sort-lines  # https://github.com/Tyriar/vscode-sort-lines
-code --install-extension vscjava.vscode-java-pack  # Java Extension Pack
-code --install-extension yzhang.markdown-all-in-one  # .md macros and stuff
 
 
 # install nvm to manage npm/node.js

@@ -57,7 +57,7 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(__git_ps1 "(%s)")\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -131,6 +131,7 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+
 # Eternal bash history.
 # ---------------------
 # Undocumented feature which sets the size to "unlimited".
@@ -166,4 +167,9 @@ pyclean () {
     find $1 -regex '^.*\(__pycache__\|\.py[co]\|.mypy_cache.*\|egg-info.*\|.pytest_cache.*\)$' -delete
 }
 
-[ -f "/home/gaius/.ghcup/env" ] && source "/home/gaius/.ghcup/env" # ghcup-env
+
+# ghcup-env haskell
+[ -f "/home/gaius/.ghcup/env" ] && source "/home/gaius/.ghcup/env"
+
+
+source ~/.config/git/git-prompt.sh

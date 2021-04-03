@@ -119,15 +119,6 @@ bash
 nvm install node  # install latest node.js and npm
 
 
-# install, init, and configure IPFS client
-tar -xzf ./installers/go-ipfs_v0.6.0_linux-amd64.tar.gz /tmp/go-ipfs
-sudo bash /tmp/go-ipfs/install.sh
-ipfs init
-ipfs config --json Experimental.FilestoreEnabled true
-ipfs config --json Swarm.ConnMgr.LowWater 25
-ipfs config --json Swarm.ConnMgr.HighWater 250
-
-
 # Haskell env manager. Interactive installer
 curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
 

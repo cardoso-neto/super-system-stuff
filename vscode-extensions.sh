@@ -14,6 +14,10 @@ code --install-extension magicstack.Chromodynamics  # https://github.com/MagicSt
 code --install-extension magicstack.magicpython  # https://github.com/MagicStack/MagicPython
 code --install-extension PKief.material-icon-theme  # cute file explorer icons 
 
+# csv 
+code --install-extension grapecity.gc-excelviewer
+code --install-extension mechatroner.rainbow-csv
+
 # markdown
 code --install-extension davidanson.vscode-markdownlint  # .md linter
 code --install-extension yzhang.markdown-all-in-one  # .md macros and stuff

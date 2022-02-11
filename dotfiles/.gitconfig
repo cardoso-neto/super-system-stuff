@@ -4,6 +4,7 @@
 	signingkey = D4AA22FDBA9CDB1F08060547EAC01C09B593C28A
 [alias]
 	authors = shortlog -sne
+	clean-branches = "!git branch --merged master | grep -v '^[ *]*master$' | xargs git branch -d"
 	fast-forward-branch = "!git merge-base --is-ancestor $1 $2 && git branch -D $1 && git branch $1 $2 && echo \"Successfully created ${1} tracking ${2}\" #"
 	find-files = "log --all --name-only --"
 	l = log --oneline --graph

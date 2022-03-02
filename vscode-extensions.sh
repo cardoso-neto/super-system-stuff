@@ -1,5 +1,8 @@
 #!/bin/bash
 
+code --install-extension GitHub.copilot
+code --install-extension sourcery.sourcery
+
 code --install-extension fabiospampinato.vscode-todo-plus  # .todo files
 code --install-extension haskell.haskell
 code --install-extension james-yu.latex-workshop  # https://github.com/James-Yu/LaTeX-Workshop
@@ -9,12 +12,13 @@ code --install-extension njqdev.vscode-python-typehint
 code --install-extension vscjava.vscode-java-pack  # Java Extension Pack
 
 # good-looking stuff
-code --install-extension CoenraadS.bracket-pair-colorizer-2
+code --install-extension usernamehw.errorlens
 code --install-extension magicstack.Chromodynamics  # https://github.com/MagicStack/Chromodynamics
 code --install-extension magicstack.magicpython  # https://github.com/MagicStack/MagicPython
-code --install-extension PKief.material-icon-theme  # cute file explorer icons 
+code --install-extension PKief.material-icon-theme  # cute file explorer icons
+code --install-extension mikestead.dotenv  # .env files syntax highlighting
 
-# csv 
+# csv
 code --install-extension grapecity.gc-excelviewer
 code --install-extension mechatroner.rainbow-csv
 

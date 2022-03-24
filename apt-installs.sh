@@ -15,18 +15,20 @@ sudo apt-get install -y gitk  # visual tool for git repos
 sudo apt-get install -y gnome-tweaks
 sudo apt-get install -y gparted  # disk partitioner
 sudo apt-get install -y hollywood  # feel like you're a hollywood hacker
+sudo apt-get install -y libdigest-sha3-perl  # sha3sum command
 sudo apt-get install -y lolcat  # rainbow-colored cat github.com/busyloop/lolcat
 sudo apt-get install -y numlockx  # change numlock status programmatically
 sudo apt-get install -y python3-nautilus  # add support for python extensions on nautilus
 sudo apt-get install -y screenfetch
 sudo apt-get install -y sqlitebrowser  # gui to explore sqlite dbs
+sudo apt-get install -y sshfs
 sudo apt-get install -y texlive-full # http://tug.org/texlive/
 sudo apt-get install -y terminator  # better terminal app
 sudo apt-get install -y unrar  # support for .rar archives
 sudo apt-get install -y xclip  # copy files to the clipboards
-sudo apt-get install -y xkbset 
+sudo apt-get install -y xkbset
 
-sudo apt-get install 
+sudo apt-get install
 # one-liner
 sudo apt-get install -y \
     adb \
@@ -45,11 +47,13 @@ sudo apt-get install -y \
     gnome-tweaks \
     gparted \
     hollywood \
+    libdigest-sha3-perl \
     lolcat \
     numlockx \
     python3-nautilus \
     screenfetch \
     sqlitebrowser \
+    sshfs \
     texlive-full \
     terminator \
     unrar \
@@ -74,7 +78,7 @@ sudo add-apt-repository ppa:appimagelauncher-team/stable
 sudo apt install appimagelauncher
 
 # sudo add-apt-repository -y ppa:alessandro-strada/google-drive-ocamlfuse-beta  # https://github.com/astrada/google-drive-ocamlfuse
-# sudo apt-get install -y google-drive-ocamlfuse  # mount GDrive 
+# sudo apt-get install -y google-drive-ocamlfuse  # mount GDrive
 
 sudo apt-add-repository -y ppa:cappelikan/ppa  # mainline (ukuu fork)
 sudo apt-get install -y mainline  # ubuntu kernel update utility (ukuu) replacement

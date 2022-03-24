@@ -1,6 +1,6 @@
 [user]
-	name = Nei Cardoso de Oliveira Neto
 	email = nei.neto@hotmail.com
+	name = Nei Cardoso de Oliveira Neto
 	signingkey = D4AA22FDBA9CDB1F08060547EAC01C09B593C28A
 [alias]
 	authors = shortlog -sne

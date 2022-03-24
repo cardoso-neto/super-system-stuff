@@ -27,6 +27,7 @@ code --install-extension davidanson.vscode-markdownlint  # .md linter
 code --install-extension yzhang.markdown-all-in-one  # .md macros and stuff
 
 # utilities
+code --install-extension redhat.vscode-yaml  # YAML analysis
 code --install-extension eamodio.gitlens  # git lens
 code --install-extension editorconfig.editorconfig
 code --install-extension mhutchie.git-graph  # https://github.com/mhutchie/vscode-git-graph

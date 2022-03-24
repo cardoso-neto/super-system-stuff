@@ -2,7 +2,8 @@
 
 # check https://ipfs.io/ipns/dist.ipfs.io/#ipfs-update for new versions
 
-tar -xzf installers/ipfs-update_v1.7.1_linux-amd64.tar.gz /tmp/ipfs-update
+mkdir /tmp/ipfs-update
+tar -xzf installers/ipfs-update_v1.8.0_linux-amd64.tar.gz -C !$
 pushd !$
 sudo bash /tmp/ipfs-update/install.sh
 popd

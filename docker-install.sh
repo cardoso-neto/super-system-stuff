@@ -17,9 +17,11 @@ sudo add-apt-repository \
 sudo apt-get install docker-ce docker-ce-cli containerd.io
 
 # docker-compose: i know it looks hacky, but trust me lol
-version=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
-sudo curl -L "https://github.com/docker/compose/releases/download/${version}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod ug+x /usr/local/bin/docker-compose
+destination=/usr/local/bin/docker-compose
+export version=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
+sudo curl -L "https://github.com/docker/compose/releases/download/${version}/docker-compose-$(uname -s)-$(uname -m)" -o ${destination}
+sudo chmod ug+x ${destination}
+sudo chown $USER:$USER ${destination}
 
 # so you won't need sudo all the time
 sudo groupadd docker # may already exists but it's ok

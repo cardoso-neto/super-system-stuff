@@ -5,7 +5,7 @@
 mkdir /tmp/ipfs-update
 tar -xzf installers/ipfs-update_v1.8.0_linux-amd64.tar.gz -C !$
 pushd !$
-sudo bash /tmp/ipfs-update/install.sh
+sudo bash ./install.sh
 popd
 
 sudo ipfs-update install latest

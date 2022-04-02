@@ -2,7 +2,7 @@
 
 ## install
 
-Check out [https://ipfs.io/ipns/dist.ipfs.io/#ipfs-update] for new versions.
+Check out [ipfs.io/ipns/dist.ipfs.io/#ipfs-update](https://ipfs.io/ipns/dist.ipfs.io/#ipfs-update) for new versions.
 
 ```bash
 mkdir /tmp/ipfs-update
@@ -27,7 +27,7 @@ ipfs config --json Swarm.ConnMgr.LowWater 25
 ipfs config --json Swarm.ConnMgr.HighWater 250
 ```
 
-On [https://github.com/lucas-clemente/quic-go/wiki/UDP-Receive-Buffer-Size] you'll see the Linux kernel has a low buffer size for UDP packets which limit the bandwidth on large trasnfer due to the overhead wasted on many smaller packets.
+On [github.com/lucas-clemente/quic-go/wiki/UDP-Receive-Buffer-Size](https://github.com/lucas-clemente/quic-go/wiki/UDP-Receive-Buffer-Size) you'll see the Linux kernel has a low buffer size for UDP packets which limit the bandwidth on large trasnfer due to the overhead wasted on many smaller packets.
 
 ```bash
 sudo sysctl -w net.core.rmem_max=2500000

@@ -33,13 +33,10 @@ On [github.com/lucas-clemente/quic-go/wiki/UDP-Receive-Buffer-Size](https://gith
 sudo sysctl -w net.core.rmem_max=2500000
 ```
 
-Install CLI bash completion:
+Install CLI bash completion as described on [github.com/ipfs/go-ipfs/blob/794...4ff/docs/command-completion.md](https://github.com/ipfs/go-ipfs/blob/79403716bf52bd6f8aa288d709217b4b2c5f04ff/docs/command-completion.md): 
 
 ```bash
-pushd /usr/local/src/
-git clone https://github.com/ipfs/go-ipfs.git
-sudo ln -s /usr/local/src/go-ipfs/misc/completion/ipfs-completion.bash /etc/bash_completion.d/ipfs-completion.bash
-popd
+echo 'eval "$(ipfs commands completion bash)"' >> ~/.bashrc
 ```
 
 ## connecting to other nodes

@@ -41,3 +41,20 @@ git clone https://github.com/ipfs/go-ipfs.git
 sudo ln -s /usr/local/src/go-ipfs/misc/completion/ipfs-completion.bash /etc/bash_completion.d/ipfs-completion.bash
 popd
 ```
+
+## connecting to other nodes
+
+Use `ipfs id` and copy one of the public addresses.
+On the node you want to connect, you can add a peer temporarily or permanently.
+
+Temporarily with:
+
+```bash
+ipfs swarm connect <multiaddr>
+```
+
+Permanently with:
+
+```bash
+ipfs bootstrap add <multiaddr>
+```

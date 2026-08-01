@@ -1,0 +1,13 @@
+# MacBook Pro. No GPG key on this machine, so commits are signed with the SSH
+# key instead -- hence gpg.format = ssh and a path rather than a key id.
+# Pairs with shared/dotfiles/.gitconfig, which includes this file.
+[user]
+	signingkey = /Users/neicardosoneto/.ssh/id_ed25519.pub
+[gpg]
+	format = ssh
+[tag]
+	gpgSign = true
+# Only set on this machine so far; nothing mac-specific about it, so it is a
+# candidate for promotion to the shared config.
+[push]
+	autoSetupRemote = true

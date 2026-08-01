@@ -1,0 +1,5 @@
+# Ubuntu desktop. Commits are signed with a GPG key held in this machine's
+# keyring; the key itself is not in this repo.
+# Pairs with shared/dotfiles/.gitconfig, which includes this file.
+[user]
+	signingkey = D4AA22FDBA9CDB1F08060547EAC01C09B593C28A

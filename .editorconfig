@@ -10,3 +10,8 @@ end_of_line = lf
 charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
+
+# git writes these with tabs and will re-tab them on any `git config` edit,
+# so fighting it here would just create churn.
+[.gitconfig*]
+indent_style = tab

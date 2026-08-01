@@ -1,0 +1,25 @@
+# Secrets never belong in this repo. Only *.example templates are tracked.
+*.secrets
+!*.secrets.example
+.env
+.env.*
+!.env.example
+
+# Private keys, in case one ever gets copied in by accident.
+*.pem
+*.p12
+id_rsa
+id_ecdsa
+id_ed25519
+
+# Host-specific config that is genuinely private goes here rather than in a
+# hosts/ layer. (hosts/*/dotfiles/.gitconfig.local IS tracked -- it holds no
+# secrets, only a key id and a public key path.)
+*.private
+
+# OS and editor cruft
+.DS_Store
+._*
+Thumbs.db
+*.swp
+*~

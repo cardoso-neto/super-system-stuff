@@ -44,13 +44,15 @@ os/
 │   ├── install/{apt-installs,snaps,flatpaks,docker-install,git-install,first-boot-installs}.sh
 │   └── bin/clean-snaps.sh
 └── macos/
-    └── dotfiles/{.zshrc,.zprofile,.zshrc.secrets.example}
+    ├── dotfiles/{.zshrc,.zprofile,.zshrc.secrets.example}
+    └── install/{homebrew-install,brew-installs,first-boot-installs}.sh
 hosts/
 ├── gaius/                              the Ubuntu desktop
 │   ├── dotfiles/{.gitconfig.local,.config/transmission/settings.json}
 │   └── install/rocm-install-amdgpu.sh  AMD GPU: hardware, not OS
 └── mbp/                                the MacBook Pro
-    └── dotfiles/{.gitconfig.local,.ssh/allowed_signers}
+    ├── dotfiles/{.gitconfig.local,.ssh/allowed_signers}
+    └── install/work-setup.sh           work VPN and repo dir, not personal
 docs/
 ├── icons.md
 ├── ipfs-install.md

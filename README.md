@@ -92,9 +92,30 @@ values. On the Mac the real file is `~/.zshrc.secrets`, `chmod 600`, sourced by
   path on the Ubuntu desktop. It is the one host-specific line in an otherwise
   portable file; VS Code has no include mechanism to split it out. The file is
   old enough to deserve a rewrite rather than a patch.
-- The Ubuntu desktop does not yet source `shared/shell/aliases.sh`. The two
-  lines are in its `.bashrc`, but the `~/.shell_aliases` symlink has not been
-  made there. The Mac is wired up.
-- The Mac's `~/.gitconfig` is still a standalone copy predating the
-  `shared` + `.gitconfig.local` split, so none of the aliases here are live on
-  it — `git ll` does not exist there yet. Symlinking is the remaining step.
+- The Ubuntu desktop is not wired to this repo yet. Its `.bashrc` has the two
+  lines that source `~/.shell_aliases`, but that symlink has not been made
+  there, and neither has the git config pair. Unverified from here — but it
+  predates the split, so assume its `~/.gitconfig` is a standalone copy.
+
+## Wiring
+
+The Mac is symlinked into this repo, so editing the live file edits the repo
+and drift shows up in `git status` instead of silently:
+
+```sh
+R=~/cardoso-neto/super-system-stuff
+ln -s $R/shared/dotfiles/.gitconfig              ~/.gitconfig
+ln -s $R/hosts/mbp/dotfiles/.gitconfig.local     ~/.gitconfig.local
+ln -s $R/hosts/mbp/dotfiles/.ssh/allowed_signers ~/.ssh/allowed_signers
+ln -s $R/shared/shell/aliases.sh                 ~/.shell_aliases
+ln -s $R/os/macos/dotfiles/.zshrc                ~/.zshrc
+```
+
+Two gotchas when checking whether this took effect:
+
+- `git config --list --global` does **not** expand `include.path` — includes
+  default off when a specific scope is named. Pass `--includes`, or the
+  per-host half looks like it went missing.
+- `git shortlog` (so, the `authors` alias) reads stdin rather than the log
+  when stdout is not a terminal. It is fine interactively; in a script or
+  through an agent, give it an explicit revision.

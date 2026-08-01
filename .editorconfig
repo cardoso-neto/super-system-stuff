@@ -3,6 +3,8 @@
 # top-most EditorConfig file
 root = true
 
+# 4-space is the repo default: every .sh installer and both settings.json
+# files already use it.
 [*]
 indent_style = space
 indent_size = 4
@@ -11,7 +13,25 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-# git writes these with tabs and will re-tab them on any `git config` edit,
-# so fighting it here would just create churn.
+# Hand-written zsh config is 2-space. (The 4-space runs in .zshrc are command
+# continuations for long flag lists, not block indentation.)
+[{.zshrc,.zprofile,*.zsh}]
+indent_size = 2
+
+# Markdown nests lists at 2.
+[*.md]
+indent_size = 2
+# Two trailing spaces are a hard line break in markdown, so stripping them
+# silently changes rendering. markdownlint's MD009 already policices the
+# accidental cases, so let it own this rather than the editor.
+trim_trailing_whitespace = false
+
+# git rewrites these with tabs on any `git config` edit, so asking for spaces
+# would just create churn.
 [.gitconfig*]
 indent_style = tab
+
+# Stock Debian file, kept as shipped -- 4-space plus a few 2-space blocks.
+# Not worth reformatting a file that upstream may replace.
+[.bashrc]
+indent_size = unset

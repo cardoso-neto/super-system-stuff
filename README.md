@@ -84,12 +84,8 @@ values. On the Mac the real file is `~/.zshrc.secrets`, `chmod 600`, sourced by
 ## Known-broken, kept for the ideas
 
 - `os/ubuntu/install/first-boot-installs.sh` untars JDK archives that no longer
-  exist — see [docs/lost-installers.md](docs/lost-installers.md).
-- `os/ubuntu/install/git-install.sh` uses `cd !$`. History expansion is off in
-  non-interactive shells, so that line does nothing when the file is run as a
-  script. It only ever worked pasted into a terminal.
-- `os/ubuntu/install/snaps.sh` has `--classasadasdaic` where `--classic` was
-  meant.
+  exist — see [docs/lost-installers.md](docs/lost-installers.md). The `tar`
+  lines are otherwise correct now.
 - `shared/dotfiles/.gitconfig` has an `ls-non-annexed-files` alias pointing at
   `~/apps/ls-non-annexed-files.sh`, which is not kept here.
 - `shared/dotfiles/.config/Code/User/settings.json` hardcodes `java.home` to a

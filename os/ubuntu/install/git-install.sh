@@ -5,8 +5,7 @@ git checkout v2.31.0
 
 # if you don't have git installed yet
 tar -zxf git-2.31.0.tar.gz -C /usr/local/src/
-cd !$
-cd git-2.31.0
+cd /usr/local/src/git-2.31.0
 
 
 sudo apt-get install \

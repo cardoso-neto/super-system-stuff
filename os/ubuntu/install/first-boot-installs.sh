@@ -23,11 +23,12 @@ nautilus -q
 
 
 # Java runtime environment
+# NOTE: ./installers/ no longer exists -- see docs/lost-installers.md.
 mkdir -p ~/.local/java/
-tar -xzf ./installers/jre-8u261-linux-x64.tar.gz -C !$
-tar -xzf ./installers/OpenJDK11U-jdk_x64_linux_hotspot_11.0.8_10.tar.gz -C !$
-tar -xzf ./installers/OpenJDK14U-jdk_x64_linux_hotspot_14.0.2_12.tar.gz -C !$
-tar -xzf ./installers/openjdk-17.0.2_linux-x64_bin.tar.gz -C !$
+tar -xzf ./installers/jre-8u261-linux-x64.tar.gz -C ~/.local/java/
+tar -xzf ./installers/OpenJDK11U-jdk_x64_linux_hotspot_11.0.8_10.tar.gz -C ~/.local/java/
+tar -xzf ./installers/OpenJDK14U-jdk_x64_linux_hotspot_14.0.2_12.tar.gz -C ~/.local/java/
+tar -xzf ./installers/openjdk-17.0.2_linux-x64_bin.tar.gz -C ~/.local/java/
 
 # JDownloader installation
 bash ./installers/JD2Setup_x64.sh

@@ -27,6 +27,8 @@
 	autocorrect = 30
 [pull]
 	ff = only
+[push]
+	autoSetupRemote = true
 [init]
 	defaultBranch = master
 [mergetool]

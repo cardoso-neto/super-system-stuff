@@ -7,7 +7,3 @@
 	format = ssh
 [tag]
 	gpgSign = true
-# Only set on this machine so far; nothing mac-specific about it, so it is a
-# candidate for promotion to the shared config.
-[push]
-	autoSetupRemote = true

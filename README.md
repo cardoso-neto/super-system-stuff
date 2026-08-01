@@ -50,7 +50,7 @@ hosts/
 │   ├── dotfiles/{.gitconfig.local,.config/transmission/settings.json}
 │   └── install/rocm-install-amdgpu.sh  AMD GPU: hardware, not OS
 └── mbp/                                the MacBook Pro
-    └── dotfiles/.gitconfig.local
+    └── dotfiles/{.gitconfig.local,.ssh/allowed_signers}
 docs/
 ├── icons.md
 ├── ipfs-install.md
@@ -95,6 +95,6 @@ values. On the Mac the real file is `~/.zshrc.secrets`, `chmod 600`, sourced by
 - The Ubuntu desktop does not yet source `shared/shell/aliases.sh`. The two
   lines are in its `.bashrc`, but the `~/.shell_aliases` symlink has not been
   made there. The Mac is wired up.
-- `git ll` shows `N` in its `%G?` column on the Mac even for signed commits,
-  because verifying an SSH signature needs `gpg.ssh.allowedSignersFile` and it
-  is unset. The commits really are signed; only the verification is missing.
+- The Mac's `~/.gitconfig` is still a standalone copy predating the
+  `shared` + `.gitconfig.local` split, so none of the aliases here are live on
+  it — `git ll` does not exist there yet. Symlinking is the remaining step.

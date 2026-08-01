@@ -5,5 +5,10 @@
 	signingkey = /Users/neicardosoneto/.ssh/id_ed25519.pub
 [gpg]
 	format = ssh
+[gpg "ssh"]
+	# Required to *verify* SSH signatures; signing alone does not need it.
+	# Unset, %G? reports N for every commit even though they are signed.
+	# See .ssh/allowed_signers next door for the contents.
+	allowedSignersFile = ~/.ssh/allowed_signers
 [tag]
 	gpgSign = true

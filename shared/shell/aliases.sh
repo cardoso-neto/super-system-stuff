@@ -1,20 +1,12 @@
 # Shell config that works unmodified in both bash and zsh, on any OS.
 # Symlinked to ~/.shell_aliases and sourced from the host's rc file.
 #
-# Anything depending on a Linux-only binary (xclip, xkbset, notify-send,
-# gpustat) or on GNU flags (ls --color, find -regex) is deliberately NOT here --
-# see os/ubuntu/dotfiles/.bash_aliases and os/ubuntu/dotfiles/.bashrc.
-
-# git log, in increasing order of detail
-alias gg='git log --oneline --graph'
-alias ggg='git log --oneline --graph --pretty="format:%>|(12)%C(auto)%h%C(reset) %C(magenta)%<(12,trunc)%aE%C(reset) %C(green)%<(15,trunc)%ar%C(reset) %C(red)%G?%C(reset) %C(auto)%d%C(reset) %C(white)%<(50,trunc)%s%C(reset)"'
-alias ggs='git log --oneline --graph --pretty="format:%>|(12)%C(auto)%h%C(reset) %C(magenta)%<(12,trunc)%aE%C(reset) %C(green)%<(12,trunc)%ar%C(reset) %C(auto)%d%C(reset) %C(white)%<(30,trunc)%s%C(reset)"'
+# Anything depending on a Linux-only binary or on GNU-only flags (ls --color,
+# grep --color) is deliberately NOT here -- see os/ubuntu/dotfiles/.bash_aliases
+# and os/ubuntu/dotfiles/.bashrc. Git log aliases live in the git config, since
+# that is where git-related things belong.
 
 alias cd...="cd ../.."
-
-# Does not actually work: aliases do not take positional parameters, so ${1} is
-# always empty. Kept for the intent -- it wants to be a function.
-alias save-alias='echo alias"${1}"'
 
 # Send files to the trash rather than unlinking them, and never prompt --
 # agents invoke rm far more often than I do interactively, so a confirmation
@@ -62,4 +54,46 @@ rm() {
         printf 'rm: no trash tool found; refusing to delete. Use `command rm`.\n' >&2
         return 1
     fi
+}
+
+# Copy to the system clipboard: `clip file`, or pipe into it.
+# Was cp-file-contents, which was too long to ever actually type.
+clip() {
+    local sink
+    if command -v pbcopy >/dev/null 2>&1; then
+        sink=(pbcopy)                            # macOS
+    elif command -v wl-copy >/dev/null 2>&1; then
+        sink=(wl-copy)                           # Wayland, Ubuntu's default now
+    elif command -v xclip >/dev/null 2>&1; then
+        sink=(xclip -selection clipboard)        # X11
+    else
+        printf 'clip: no clipboard tool found (pbcopy, wl-copy, xclip).\n' >&2
+        return 1
+    fi
+    if [ $# -gt 0 ]; then
+        "${sink[@]}" < "$1"
+    else
+        "${sink[@]}"
+    fi
+}
+
+# Remove __pycache__ folders, .pyc/.pyo files, mypy and pytest caches, and
+# egg-info build leftovers. Defaults to the current directory.
+# https://stackoverflow.com/a/41386937/11615853
+#
+# Two passes with -prune rather than the old single `find -regex`, because the
+# regex flavour differs between GNU and BSD find and would not have worked on
+# macOS. `rm` here is the real binary, not the trash function above -- find's
+# -exec runs an executable and never sees shell functions. That is what we want
+# for caches: they are regenerable, and trashing thousands of .pyc files would
+# just fill the bin.
+pyclean() {
+    local target="${1:-.}"
+    find "$target" -type d \
+        \( -name '__pycache__' \
+        -o -name '.mypy_cache' \
+        -o -name '.pytest_cache' \
+        -o -name '*.egg-info' \) \
+        -prune -exec rm -rf -- {} +
+    find "$target" -type f -name '*.py[co]' -exec rm -f -- {} +
 }

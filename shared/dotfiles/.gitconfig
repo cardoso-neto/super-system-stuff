@@ -10,6 +10,9 @@
 	fast-forward-branch = "!git merge-base --is-ancestor $1 $2 && git branch -D $1 && git branch $1 $2 && echo \"Successfully created ${1} tracking ${2}\" #"
 	find-files = "log --all --name-only --"
 	l = log --oneline --graph
+	# `l` with author, relative date, and %G? signature status. Was the ggg
+	# shell alias; git things belong in the git config.
+	ll = "log --oneline --graph --pretty=format:'%>|(12)%C(auto)%h%C(reset) %C(magenta)%<(12,trunc)%aE%C(reset) %C(green)%<(15,trunc)%ar%C(reset) %C(red)%G?%C(reset) %C(auto)%d%C(reset) %C(white)%<(50,trunc)%s%C(reset)'"
 	lfs-scrub = "!rm -rf .git/lfs/objects"
 	# Expects ~/apps/ls-non-annexed-files.sh, which is not kept in this repo.
 	ls-non-annexed-files = "!~/apps/ls-non-annexed-files.sh"

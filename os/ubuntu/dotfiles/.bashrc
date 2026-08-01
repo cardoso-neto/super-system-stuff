@@ -92,10 +92,6 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
@@ -107,8 +103,8 @@ fi
 
 # Shared with the Mac: symlink ~/.shell_aliases to
 # super-system-stuff/shared/shell/aliases.sh. Same two lines live in
-# os/macos/dotfiles/.zshrc. NOT yet applied on the desktop -- doing so also
-# swaps rm for a gio-trash wrapper, which makes `tt` below redundant.
+# os/macos/dotfiles/.zshrc. NOT yet applied on the desktop -- doing so swaps rm
+# for a gio-trash wrapper and adds clip and pyclean.
 if [ -f ~/.shell_aliases ]; then
     . ~/.shell_aliases
 fi
@@ -167,14 +163,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# https://stackoverflow.com/a/41386937/11615853
-# remove __pycache__ folders and .pyc files
-# updated to also delete mypy caches and egg-info pip build leftovers
-# pytest cache folder as well
-pyclean () {
-    find $1 -regex '^.*\(__pycache__\|\.py[co]\|.mypy_cache.*\|egg-info.*\|.pytest_cache.*\)$' -delete
-}
-
+# pyclean moved to shared/shell/aliases.sh, rewritten to work on BSD find too.
 
 # ghcup-env haskell
 [ -f "/home/gaius/.ghcup/env" ] && source "/home/gaius/.ghcup/env"

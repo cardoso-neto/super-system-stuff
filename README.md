@@ -90,6 +90,11 @@ values. On the Mac the real file is `~/.zshrc.secrets`, `chmod 600`, sourced by
   `~/apps/ls-non-annexed-files.sh`, which is not kept here.
 - `shared/dotfiles/.config/Code/User/settings.json` hardcodes `java.home` to a
   path on the Ubuntu desktop. It is the one host-specific line in an otherwise
-  portable file; VS Code has no include mechanism to split it out.
-- The macOS `.zshrc` does not yet source `shared/shell/aliases.sh`, so the git
-  aliases are Ubuntu-only in practice.
+  portable file; VS Code has no include mechanism to split it out. The file is
+  old enough to deserve a rewrite rather than a patch.
+- The Ubuntu desktop does not yet source `shared/shell/aliases.sh`. The two
+  lines are in its `.bashrc`, but the `~/.shell_aliases` symlink has not been
+  made there. The Mac is wired up.
+- `git ll` shows `N` in its `%G?` column on the Mac even for signed commits,
+  because verifying an SSH signature needs `gpg.ssh.allowedSignersFile` and it
+  is unset. The commits really are signed; only the verification is missing.

@@ -105,6 +105,14 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+# Shared with the Mac: symlink ~/.shell_aliases to
+# super-system-stuff/shared/shell/aliases.sh. Same two lines live in
+# os/macos/dotfiles/.zshrc. NOT yet applied on the desktop -- doing so also
+# swaps rm for a gio-trash wrapper, which makes `tt` below redundant.
+if [ -f ~/.shell_aliases ]; then
+    . ~/.shell_aliases
+fi
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).

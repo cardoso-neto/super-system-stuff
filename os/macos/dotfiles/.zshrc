@@ -106,6 +106,14 @@ export GPG_TTY=$(tty)
 # Needed as an export because cmux's shim and quentinbot inherit it from here.
 export CLAUDE_CODE_OAUTH_TOKEN="$(CLAUDE_FAILOVER_NO_PROBE=1 claude-account token 2>/dev/null)"
 
+# shared shell config
+# Symlink to super-system-stuff/shared/shell/aliases.sh -- git log aliases,
+# cd..., and an rm that trashes instead of unlinking. Because it is a symlink,
+# editing it edits the repo, so drift shows up in `git status` instead of
+# silently. The -f test is false for a dangling link, so a missing repo just
+# means no aliases rather than a startup error.
+[ -f "$HOME/.shell_aliases" ] && source "$HOME/.shell_aliases"
+
 # claude code
 claude() {
   local args=(--dangerously-skip-permissions) dir="$PWD"

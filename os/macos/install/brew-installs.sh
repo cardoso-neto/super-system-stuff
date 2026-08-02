@@ -17,6 +17,7 @@ brew install --cask basictex  # prompts for a password
 
 # ai tools
 brew install --cask claude
-brew install --cask codex-app
+brew install --cask codex  # the cli
+brew install --cask codex-app  # the desktop app; both are worth having
 brew tap manaflow-ai/cmux
 brew install --cask cmux

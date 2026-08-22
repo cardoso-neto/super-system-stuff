@@ -1,6 +1,7 @@
 # cli tools
 brew install pipx
 brew install uv
+brew install ripgrep
 brew install pandoc
 brew install librsvg  # rsvg-convert, an SVG rasteriser
 

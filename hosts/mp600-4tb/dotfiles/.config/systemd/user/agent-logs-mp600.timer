@@ -1,0 +1,10 @@
+[Unit]
+Description=Archive mp600 agent sessions hourly
+
+[Timer]
+OnCalendar=*-*-* *:27:00
+Persistent=true
+Unit=agent-logs-mp600.service
+
+[Install]
+WantedBy=timers.target

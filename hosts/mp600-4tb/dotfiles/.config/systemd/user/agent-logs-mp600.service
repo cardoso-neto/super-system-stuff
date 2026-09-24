@@ -1,0 +1,9 @@
+[Unit]
+Description=Archive mp600 agent sessions
+
+[Service]
+Type=oneshot
+ExecStart=/home/nei/.local/bin/sync-agent-logs-host
+WorkingDirectory=/home/nei/cardoso-neto/agent-logs
+Nice=10
+IOSchedulingClass=idle

@@ -1,0 +1,1 @@
+17 * * * * AGENT_LOG_ARCHIVE_HOST=Neis-MBP AGENT_LOG_ARCHIVE_PATH=data /Users/neicardosoneto/cardoso-neto/agent-logs/sync-agent-logs.sh >> /Users/neicardosoneto/Library/Logs/agent-logs-sync.log 2>&1 # agent-logs hourly sync

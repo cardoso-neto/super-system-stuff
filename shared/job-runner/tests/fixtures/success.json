@@ -1,0 +1,1 @@
+{"arguments":["--name","success-fixture","--timeout","1h","--","/usr/bin/printf","hello %s\\n","two words"],"exit":0,"stdout":"hello two words\n","stderr":""}

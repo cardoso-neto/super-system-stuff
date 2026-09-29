@@ -1,0 +1,1 @@
+{"arguments":["--name","stream-fixture","--timeout","10s","--","/usr/bin/perl","@FIXTURE@/streams.pl"],"exit":23,"stdout":{"unit":"o","count":262144,"tail":"\noutput tail"},"stderr":{"unit":"e","count":262144,"tail":"\nerror tail"}}

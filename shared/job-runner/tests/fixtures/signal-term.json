@@ -1,0 +1,1 @@
+{"arguments":["--name","term-fixture","--timeout","1m","--","/usr/bin/perl","@FIXTURE@/descendants.pl","@TMP@"],"signal":"TERM","exit":143,"stdout":"","descendants":true}

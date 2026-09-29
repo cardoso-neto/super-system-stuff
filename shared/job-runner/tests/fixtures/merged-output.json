@@ -1,0 +1,1 @@
+{"arguments":["--name","merged-output-fixture","--timeout","1s","--","/usr/bin/perl","@FIXTURE@/merged-output.pl","@TMP@"],"exit":124,"blocked_stdout":true,"merged_stderr":true,"descendants":true}

@@ -1,0 +1,1 @@
+{"arguments":["--name","invalid-fixture","--timeout","0","--","/usr/bin/true"],"exit":2,"stdout":""}

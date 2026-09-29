@@ -1,0 +1,1 @@
+{"arguments":["--name","utf8-fixture","--timeout","1m","--","/usr/bin/perl","@FIXTURE@/utf8.pl"],"exit":0,"stdout":{"unit":"a","count":698,"tail":"€\nlast"},"stderr":""}

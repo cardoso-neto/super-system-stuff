@@ -1,0 +1,1 @@
+{"arguments":["--name","blocked-output-fixture","--timeout","1s","--","/usr/bin/perl","@FIXTURE@/continuous.pl","@TMP@"],"exit":124,"blocked_stdout":true,"descendants":true,"stderr":""}

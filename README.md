@@ -19,13 +19,15 @@ So: read these files as reference material. Scripts here record what I ran on a
 particular machine at a particular time. Several are stale, and a few never
 worked (noted inline where I know about it).
 
+- [macOS job runner](shared/job-runner/): shared logging, timeouts, and updater integration.
+
 ## Layout
 
 Three layers, from most to least general. Later layers override or extend
 earlier ones — nothing enforces that, it is just how the content is organised.
 
 ```text
-shared/     works everywhere, on any OS
+shared/     reusable across hosts; check each tool's platform requirements
 os/         everything true of an operating system but not a specific machine
 hosts/      facts about one physical computer
 docs/       notes that are not config

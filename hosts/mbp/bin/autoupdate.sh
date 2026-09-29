@@ -9,11 +9,12 @@ export NONINTERACTIVE=1
 dry_run=false
 case "${1:-}" in
   --dry-run) dry_run=true ;;
-  '') ;;
+  '') exec "$HOME/.local/bin/job-runner" --name machine-autoupdate --timeout "${MACHINE_AUTOUPDATE_TIMEOUT:-4h}" -- /bin/bash "$0" --run ;;
+  --run) ;;
   *) echo "Usage: $0 [--dry-run]" >&2; exit 2 ;;
 esac
 
-state_dir="$HOME/Library/Logs/machine-autoupdate"
+state_dir="$HOME/Library/Caches/machine-autoupdate"
 if ! "$dry_run"; then
   power=$(/usr/bin/pmset -g ps) || exit 1
   if [[ "$power" != *"'AC Power'"* ]]; then
@@ -25,11 +26,6 @@ if ! "$dry_run"; then
   trap 'rm -f "$state_dir/lock"' EXIT
   trap 'exit 130' INT
   trap 'exit 143' TERM
-  if [[ -f "$state_dir/latest.log" ]]; then
-    mv -f "$state_dir/latest.log" "$state_dir/previous.log"
-  fi
-  exec > "$state_dir/latest.log" 2>&1
-  : > "$state_dir/manual-updates.log"
 fi
 
 failures=0
@@ -48,9 +44,9 @@ run() {
 }
 
 update_casks() {
-  local outdated cask
+  local outdated cask metadata
   if "$dry_run"; then
-    echo "Update outdated casks; report apps needing administrator access or a manual installer."
+    echo "Update all outdated casks, checking actual app versions and using native updaters for Docker and Windscribe."
     return
   fi
   if ! outdated=$(brew outdated --cask --greedy --quiet); then
@@ -60,11 +56,17 @@ update_casks() {
   fi
   while IFS= read -r cask; do
     [[ -n "$cask" ]] || continue
+    if metadata=$(brew info --json=v2 --cask "$cask") &&
+      jq -e '.casks[0] | .auto_updates and (.bundle_version != null or .bundle_short_version != null) and (.outdated == false)' <<< "$metadata" >/dev/null; then
+      echo "Already current (app version checked): $cask"
+      continue
+    fi
     case "$cask" in
-      # These installations need sudo, have root-owned app conflicts, or use a manual installer.
-      basictex|claude|docker-desktop|miniconda|obs|spotify|steam|tunnelblick|windscribe)
-        echo "Manual update required: $cask" | tee -a "$state_dir/manual-updates.log"
+      docker-desktop)
+        run /Applications/Docker.app/Contents/Resources/bin/docker desktop start
+        run /Applications/Docker.app/Contents/Resources/bin/docker desktop update --quiet
         ;;
+      windscribe) run /Applications/Windscribe.app/Contents/MacOS/windscribe-cli update ;;
       *) run brew upgrade --no-ask --cask --greedy --no-quit "$cask" ;;
     esac
   done <<< "$outdated"
@@ -74,7 +76,8 @@ run brew update
 run brew upgrade --no-ask --formula
 update_casks
 run npm update --global --allow-scripts=@googleworkspace/cli,@xai-official/grok
-run npx --yes t3@latest update --channel stable --yes --base-dir "$HOME/.t3"
+run npm install --global --include=optional t3@latest
+run t3 update --channel stable --yes --base-dir "$HOME/.t3"
 if [[ -x "$HOME/.local/bin/claude" ]]; then run "$HOME/.local/bin/claude" update; fi
 if [[ -x "$HOME/.grok/bin/grok" ]]; then run env npm_config_allow_scripts=@xai-official/grok "$HOME/.grok/bin/grok" update --stable; fi
 if [[ -x "$HOME/.bun/bin/bun" ]]; then run "$HOME/.bun/bin/bun" upgrade; fi
@@ -83,7 +86,4 @@ run pipx upgrade-all
 run brew cleanup
 
 echo "Finished: $failures failed steps."
-if ! "$dry_run" && [[ -s "$state_dir/manual-updates.log" ]]; then
-  echo "Manual updates remain; see $state_dir/manual-updates.log"
-fi
 [[ "$failures" -eq 0 ]]

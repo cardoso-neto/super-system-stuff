@@ -75,11 +75,11 @@ update_casks() {
 run brew update
 run brew upgrade --no-ask --formula
 update_casks
-run npm update --global --allow-scripts=@googleworkspace/cli,@xai-official/grok
+run npm update --global --allow-scripts=@googleworkspace/cli
 run npm install --global --include=optional t3@latest
 run t3 update --channel stable --yes --base-dir "$HOME/.t3"
 if [[ -x "$HOME/.local/bin/claude" ]]; then run "$HOME/.local/bin/claude" update; fi
-if [[ -x "$HOME/.grok/bin/grok" ]]; then run env npm_config_allow_scripts=@xai-official/grok "$HOME/.grok/bin/grok" update --stable; fi
+if [[ -x "$HOME/.grok/bin/grok" ]]; then run "$HOME/.grok/bin/grok" update --stable; fi
 if [[ -x "$HOME/.bun/bin/bun" ]]; then run "$HOME/.bun/bin/bun" upgrade; fi
 run uv tool upgrade --all
 run pipx upgrade-all

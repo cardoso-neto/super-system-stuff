@@ -32,7 +32,7 @@ run 'T3' npx --yes t3@latest update --channel stable --yes
 run 'Codex' npm --prefix "$HOME/.local" install --global @openai/codex@latest
 run 'Codex path' check_codex
 if [[ -x "$HOME/.grok/bin/grok" ]]; then
-    run 'Grok' env npm_config_allow_scripts=@xai-official/grok "$HOME/.grok/bin/grok" update --stable
+    run 'Grok' "$HOME/.grok/bin/grok" update --stable
 else
     printf 'Grok: skipped (not installed)\n'
 fi

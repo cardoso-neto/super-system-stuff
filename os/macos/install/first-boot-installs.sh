@@ -1,13 +1,7 @@
 # macOS setup that does not come from Homebrew.
 
-# No-ops if os/macos/dotfiles/.zprofile is in place; it already puts
-# ~/.local/bin on PATH.
-pipx ensurepath
-sudo pipx ensurepath --global
-
-# Do not append `eval "$(uv generate-shell-completion zsh)"` or the pipx
-# equivalent to ~/.zshrc. It is handled there already, cached rather than
-# regenerated per startup, and ~/.zshrc is a symlink into this repo.
+uv python install 3.14 --default
+uv tool update-shell
 
 # Puts kitty.app in /Applications, not ~/.local like the Linux installer does.
 curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
@@ -16,3 +10,9 @@ curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
 curl -fsSL https://x.ai/cli/install.sh | bash
 
 claude mcp add chrome-devtools npx chrome-devtools-mcp@latest
+
+# mpv DUMMY
+curl -fL https://github.com/vitorgalvao/mpv-dummy/releases/download/2023.2/mpv.DUMMY.dmg -o /tmp/mpv.DUMMY-2023.2.dmg
+hdiutil attach /tmp/mpv.DUMMY-2023.2.dmg -nobrowse -readonly
+ditto '/Volumes/mpv DUMMY/mpv.app' /Applications/mpv.app
+hdiutil detach '/Volumes/mpv DUMMY'

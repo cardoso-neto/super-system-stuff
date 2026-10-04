@@ -46,7 +46,7 @@ run() {
 update_casks() {
   local outdated cask metadata
   if "$dry_run"; then
-    echo "Update all outdated casks, checking actual app versions and using native updaters for Docker and Windscribe."
+    echo "Update all outdated casks, checking actual app versions and using native updaters for Docker and Windscribe, and relaunching T3 Code if it was running."
     return
   fi
   if ! outdated=$(brew outdated --cask --greedy --quiet); then
@@ -67,9 +67,33 @@ update_casks() {
         run /Applications/Docker.app/Contents/Resources/bin/docker desktop update --quiet
         ;;
       windscribe) run /Applications/Windscribe.app/Contents/MacOS/windscribe-cli update ;;
+      t3-code) upgrade_cask_and_relaunch "$cask" com.t3tools.t3code ;;
       *) run brew upgrade --no-ask --cask --greedy --no-quit "$cask" ;;
     esac
   done <<< "$outdated"
+}
+
+# --no-quit replaces the bundle under a running app, which keeps running the old version.
+upgrade_cask_and_relaunch() {
+  local cask=$1 bundle_id=$2 was_running
+  was_running=$(app_is_running "$bundle_id")
+  run brew upgrade --no-ask --cask --greedy --no-quit "$cask"
+  [[ "$was_running" == true ]] && run relaunch_app "$bundle_id"
+}
+
+app_is_running() {
+  /usr/bin/osascript -e "application id \"$1\" is running"
+}
+
+relaunch_app() {
+  local bundle_id=$1
+  /usr/bin/osascript -e "quit app id \"$bundle_id\"" || return
+  for _ in {1..30}; do
+    [[ "$(app_is_running "$bundle_id")" == false ]] && break
+    sleep 1
+  done
+  [[ "$(app_is_running "$bundle_id")" == false ]] || return
+  /usr/bin/open -g -b "$bundle_id"
 }
 
 run brew update

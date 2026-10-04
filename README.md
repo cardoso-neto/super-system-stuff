@@ -113,6 +113,7 @@ ln -s $R/hosts/mbp/dotfiles/.gitconfig.local     ~/.gitconfig.local
 ln -s $R/hosts/mbp/dotfiles/.ssh/allowed_signers ~/.ssh/allowed_signers
 ln -s $R/shared/shell/aliases.sh                 ~/.shell_aliases
 ln -s $R/os/macos/dotfiles/.zshrc                ~/.zshrc
+ln -s $R/os/macos/dotfiles/.zprofile             ~/.zprofile
 ```
 
 Two gotchas when checking whether this took effect:

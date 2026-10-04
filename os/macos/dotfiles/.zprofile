@@ -1,5 +1,4 @@
-
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# Created by `pipx` on 2025-10-16 18:41:59
-export PATH="$PATH:/Users/neicardosoneto/.local/bin"
+# User tools win over Homebrew; installers link their binaries here.
+export PATH="$HOME/.local/bin:$PATH"

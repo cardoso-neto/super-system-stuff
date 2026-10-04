@@ -1,12 +1,14 @@
 # Interactive zsh config (macOS, Apple Silicon).
-# Login-shell PATH bootstrap (Homebrew, pipx) lives in ~/.zprofile.
+# Login-shell PATH bootstrap (Homebrew, ~/.local/bin) lives in ~/.zprofile.
 # Secrets live in ~/.zshrc.secrets (chmod 600, never committed).
 
 # path
 # `typeset -U` keeps these deduplicated no matter how many times a directory is
 # prepended, including when this file is re-sourced in a nested shell.
+# Tools whose installers append their own PATH lines belong here instead; link
+# single binaries into ~/.local/bin rather than adding their directories.
 typeset -U path fpath
-path=("$HOME/.local/bin" "$HOME/.grok/bin" $path)
+path=("$HOME/.local/bin" "$HOME/.grok/bin" "$HOME/.bun/bin" $path)
 
 # prompt
 # Deliberately not exported: PS1 is shell-local, and leaking zsh's %{...%}
@@ -51,6 +53,7 @@ _cached_completion() {
 }
 _cached_completion uv   "${commands[uv]}"                            uv generate-shell-completion zsh
 unset -f _cached_completion
+[[ -s "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun"   # from the bun installer
 
 # environment
 export GPG_TTY=$(tty)
@@ -175,16 +178,3 @@ pi-mlx-start() {
 
 # misc
 alias ta-quick='uvx --from "git+ssh://git@bitbucket.org/thoughtfulautomation/ta-quick.git" quick'
-
-export PATH="/Users/neicardosoneto/cardoso-neto/super-system-stuff:$PATH" # added by muse installer
-
-# bun completions
-[ -s "/Users/neicardosoneto/.bun/_bun" ] && source "/Users/neicardosoneto/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-
-# Added by Antigravity CLI installer
-export PATH="/Users/neicardosoneto/.local/bin:$PATH"

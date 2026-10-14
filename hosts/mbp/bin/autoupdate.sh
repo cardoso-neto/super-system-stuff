@@ -98,6 +98,7 @@ relaunch_app() {
 
 run brew update
 run brew upgrade --no-ask --formula
+run /bin/bash "$(dirname "$0")/sync-tailscale-service.sh"
 update_casks
 run npm update --global --allow-scripts=@googleworkspace/cli
 run npm install --global --include=optional t3@latest

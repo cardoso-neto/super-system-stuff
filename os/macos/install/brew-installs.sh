@@ -18,6 +18,7 @@ brew install --cask whatsapp
 brew install --cask basictex  # prompts for a password
 brew install --cask drawio  # diagrams; also links a `drawio` cli
 brew install --cask iina
+brew install --cask vorssaint
 
 # ai tools
 brew trust humanlayer/humanlayer

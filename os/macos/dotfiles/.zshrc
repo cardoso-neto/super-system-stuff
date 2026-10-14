@@ -178,3 +178,6 @@ pi-mlx-start() {
 
 # misc
 alias ta-quick='uvx --from "git+ssh://git@bitbucket.org/thoughtfulautomation/ta-quick.git" quick'
+
+# bun completions
+[ -s "/Users/neicardosoneto/.bun/_bun" ] && source "/Users/neicardosoneto/.bun/_bun"

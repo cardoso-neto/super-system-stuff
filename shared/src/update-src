@@ -1,0 +1,111 @@
+#!/usr/bin/env bash
+set -euo pipefail
+export GIT_TERMINAL_PROMPT=0
+export GIT_SSH_COMMAND='ssh -o BatchMode=yes -o ConnectTimeout=30'
+bare_root=${SRC_BARE_ROOT:-/src/bare}
+reference_root=${SRC_REFERENCE_ROOT:-/src/read}
+exec 9>"${SRC_UPDATE_LOCK:-/src/.update-src.lock}"
+if (( $# )); then
+    flock 9
+else
+    flock -n 9 || exit 0
+fi
+
+# shellcheck disable=SC2329
+readonly_tree() {
+    find -P "$1" -type f -exec chmod a-w {} +
+    find -P "$1" -type d -exec chmod a-w {} +
+}
+writable_tree() {
+    find -P "$1" -type d -exec chmod u+w {} +
+    find -P "$1" -type f -exec chmod u+w {} +
+}
+
+share_annex() {
+    [[ -d $repo/annex/objects ]] || return 0
+    gitdir=$(git -C "$reference" rev-parse --absolute-git-dir)
+    if [[ -e $gitdir/annex || -L $gitdir/annex ]]; then
+        [[ -L $gitdir/annex && $(realpath "$gitdir/annex") == "$(realpath "$repo/annex")" ]] || {
+            echo "Refusing separate worktree annex: $gitdir/annex" >&2; return 1;
+        }
+    else
+        ln -s ../../annex "$gitdir/annex"
+    fi
+    if [[ ! -L $reference/.git ]]; then
+        ln -s "$gitdir" "$reference/.git.src-link"
+        mv -f "$reference/.git.src-link" "$reference/.git"
+    fi
+}
+
+update_repo() (
+    set -e
+    repo=$1
+    name=${repo#"$bare_root/"}
+    reference=$reference_root/$name
+    echo "Updating $name"
+    git --git-dir="$repo" fetch -p origin
+    branch=$(git --git-dir="$repo" config --get src.referenceBranch || true)
+    if [[ -z $branch ]]; then
+        if git --git-dir="$repo" show-ref --verify --quiet refs/remotes/origin/master; then
+            branch=master
+        else
+            git --git-dir="$repo" remote set-head origin --auto
+            branch=$(git --git-dir="$repo" symbolic-ref refs/remotes/origin/HEAD)
+            branch=${branch#refs/remotes/origin/}
+        fi
+        git --git-dir="$repo" config src.referenceBranch "$branch"
+    fi
+    target=refs/remotes/origin/$branch
+    git --git-dir="$repo" rev-parse --verify "$target^{commit}" >/dev/null
+    if [[ ! -e $reference && ! -L $reference ]]; then
+        mkdir -p "$(dirname "$reference")"
+        git -c core.hooksPath=/dev/null --git-dir="$repo" worktree add --detach "$reference" "$target"
+        trap 'readonly_tree "$reference"' EXIT
+        share_annex
+        exit 0
+    fi
+    [[ ! -L $reference && ( -f $reference/.git || -d $reference/.git ) ]] || { echo "Refusing unexpected reference path: $reference" >&2; exit 1; }
+    common=$(git -C "$reference" rev-parse --path-format=absolute --git-common-dir)
+    [[ $(realpath "$common") == "$(realpath "$repo")" ]] || { echo 'Wrong repository; skipping' >&2; exit 1; }
+    if git -C "$reference" symbolic-ref -q HEAD >/dev/null; then
+        echo 'Reference is on a branch; skipping' >&2; exit 1
+    fi
+    if [[ -n $(git -C "$reference" status --porcelain --untracked-files=all --ignored) ]]; then
+        echo 'Reference contains changes or extra files; skipping' >&2; exit 1
+    fi
+    git -C "$reference" merge-base --is-ancestor HEAD "$target" || { echo 'Reference cannot fast-forward; skipping' >&2; exit 1; }
+    trap 'readonly_tree "$reference"' EXIT
+    trap 'exit 130' INT
+    trap 'exit 143' TERM
+    writable_tree "$reference"
+    git -c core.hooksPath=/dev/null -C "$reference" merge --ff-only "$target"
+)
+
+[[ -d $bare_root ]] || { echo "Missing bare repository root: $bare_root" >&2; exit 1; }
+shopt -s nullglob
+repos=("$bare_root"/*/*)
+# No arguments: discover every repository. Explicit names let add-src initialize
+# just its new repository using the same reference-update and locking rules.
+if (( $# )); then
+    repos=()
+    for name in "$@"; do
+        [[ $name =~ ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$ && $name != ../* && $name != */.. && $name != ./* && $name != */. ]] || { echo "Invalid org/repo: $name" >&2; exit 1; }
+        [[ -d $bare_root/$name/objects && -f $bare_root/$name/HEAD ]] || { echo "Missing bare repo: $name" >&2; exit 1; }
+        repos+=("$bare_root/$name")
+    done
+fi
+failed=0
+for repo in "${repos[@]}"; do
+    [[ -d $repo && ! -L $repo && -f $repo/HEAD && -d $repo/objects ]] || continue
+    [[ $(git --git-dir="$repo" rev-parse --is-bare-repository) == true ]] || continue
+    # Keep errexit active inside update_repo; an `if update_repo` would disable it.
+    set +e
+    update_repo "$repo"
+    result=$?
+    set -e
+    if (( result != 0 )); then
+        echo "FAILED: $repo (exit $result)" >&2
+        failed=1
+    fi
+done
+exit "$failed"

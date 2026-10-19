@@ -20,6 +20,7 @@ particular machine at a particular time. Several are stale, and a few never
 worked (noted inline where I know about it).
 
 - [macOS job runner](shared/job-runner/): shared logging, timeouts, and updater integration.
+- [Shared source repositories](shared/src/): bare clones and hourly reference checkout updates.
 
 ## Layout
 

@@ -27,5 +27,6 @@ brew install --cask claude
 brew install --cask codex  # the cli
 brew install --cask chatgpt
 brew install --cask t3-code
+brew install lexfrei/tap/mcp-tg
 brew tap manaflow-ai/cmux
 brew install --cask cmux

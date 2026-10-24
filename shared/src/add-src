@@ -22,14 +22,21 @@ name=${name%.git}
 bare_root=${SRC_BARE_ROOT:-/src/bare}
 reference_root=${SRC_REFERENCE_ROOT:-/src/read}
 trust=${SRC_TRUST_CONFIG:-/src/git-trust.config}
+if [[ $bare_root == /src/bare || $reference_root == /src/read || $trust == /src/git-trust.config ]]; then
+    maintainer=$(stat -c %U "$reference_root")
+    [[ $(id -u) == $(stat -c %u "$reference_root") ]] || {
+        echo "Run as $maintainer, the shared source maintainer" >&2; exit 1;
+    }
+fi
+umask 002
 repo=$bare_root/$name
 reference=$reference_root/$name
 updater=$(dirname "$(realpath "$0")")/update-src
 export GIT_TERMINAL_PROMPT=0
 export GIT_SSH_COMMAND='ssh -o BatchMode=yes -o ConnectTimeout=30'
-exec 9>"${SRC_UPDATE_LOCK:-/src/.update-src.lock}"
+exec 9<>"${SRC_UPDATE_LOCK:-/src/.update-src.lock}"
 flock 9
-[[ -w $bare_root && -w $reference_root ]] || { echo 'Run as the shared source maintainer: sudo -H -u nei /usr/local/bin/add-src <org/repo-or-URL>' >&2; exit 1; }
+[[ -w $bare_root && -w $reference_root ]] || { echo 'Shared source roots must be writable by the maintainer' >&2; exit 1; }
 if [[ -e $repo || -L $repo ]]; then
     [[ ! -L $repo && -d $repo/objects && -f $repo/HEAD ]] || { echo "Unexpected path: $repo" >&2; exit 1; }
     [[ $(git --git-dir="$repo" config --get remote.origin.url) == "$url" ]] || {
@@ -42,16 +49,15 @@ else
 fi
 git --git-dir="$repo" config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
 git --git-dir="$repo" config core.sharedRepository group
-find "$repo" -type d -exec chmod g+rws {} +
-find "$repo" -type f -exec chmod g+rw {} +
 touch "$trust"
 chmod 644 "$trust"
 for trusted in "$repo" "$reference"; do
-    if ! git config --file "$trust" --get-all safe.directory | grep -Fxq "$trusted"; then
+    if ! git config --file "$trust" --get-all safe.directory | grep -Fx "$trusted" >/dev/null; then
         git config --file "$trust" --add safe.directory "$trusted"
     fi
 done
-if ! git config --global --get-all include.path | grep -Fxq "$trust"; then
+if ! git config --system --get-all include.path | grep -Fx "$trust" >/dev/null &&
+    ! git config --global --get-all include.path | grep -Fx "$trust" >/dev/null; then
     git config --global --add include.path "$trust"
 fi
 flock -u 9

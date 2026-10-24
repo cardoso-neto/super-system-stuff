@@ -30,9 +30,17 @@ Updates refuse reference checkouts with tracked changes, untracked or ignored fi
 Reference checkout commands disable hooks for that command only.
 Other worktrees retain their hooks.
 
-`add-src` creates `/src/git-trust.config` with explicit safe-directory entries for each bare repository and reference checkout, then includes it in the maintainer's global Git configuration.
-Other users need to include that trust file in their own Git configuration.
-The helpers grant group write access to bare repositories; provision their ownership and group separately.
+The canonical helpers run as the owner of `/src/read`, the sole refresher.
+`add-src` maintains explicit safe-directory entries in `/src/git-trust.config`.
+Include that file once through `/etc/gitconfig`; keep `/src` and the trust file writable only by the maintainer.
+If the system configuration does not include the trust file, `add-src` adds it to the caller's global Git configuration.
+
+Provision the `src` group, setgid directories, and default ACLs before using the helpers.
+Bare directories and metadata inherit group read/write access; Git also uses `core.sharedRepository=group`.
+Annex payloads need group read access while retaining their write bits and immutable flags.
+The helpers do not recursively make existing bare files writable.
+Reference directories inherit group read/traverse access; the updater removes write access from reference checkout files and directories after each refresh.
+Keep the reference root and organization directories owner-writable, group nonwritable, so only the maintainer can create or replace reference checkouts.
 
 The helpers do not migrate existing clones, initialize git-annex, or download annex payloads.
 For annex repositories, preserve the existing annex store before use.

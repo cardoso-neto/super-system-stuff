@@ -4,7 +4,14 @@ export GIT_TERMINAL_PROMPT=0
 export GIT_SSH_COMMAND='ssh -o BatchMode=yes -o ConnectTimeout=30'
 bare_root=${SRC_BARE_ROOT:-/src/bare}
 reference_root=${SRC_REFERENCE_ROOT:-/src/read}
-exec 9>"${SRC_UPDATE_LOCK:-/src/.update-src.lock}"
+if [[ $bare_root == /src/bare || $reference_root == /src/read ]]; then
+    maintainer=$(stat -c %U "$reference_root")
+    [[ $(id -u) == $(stat -c %u "$reference_root") ]] || {
+        echo "Run as $maintainer, the shared source maintainer" >&2; exit 1;
+    }
+fi
+umask 002
+exec 9<>"${SRC_UPDATE_LOCK:-/src/.update-src.lock}"
 if (( $# )); then
     flock 9
 else
@@ -13,8 +20,8 @@ fi
 
 # shellcheck disable=SC2329
 readonly_tree() {
-    find -P "$1" -type f -exec chmod a-w {} +
-    find -P "$1" -type d -exec chmod a-w {} +
+    find -P "$1" -type f -exec chmod a-w,g+rX {} +
+    find -P "$1" -type d -exec chmod a-w,g+rx {} +
 }
 writable_tree() {
     find -P "$1" -type d -exec chmod u+w {} +

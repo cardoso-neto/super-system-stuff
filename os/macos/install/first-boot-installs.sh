@@ -9,6 +9,9 @@ curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
 # grok cli: ~/.grok/bin and ~/.grok/completions/zsh, both wired up in .zshrc.
 curl -fsSL https://x.ai/cli/install.sh | bash
 
+# HatchZip app and CLI from the official release.
+bash "$(dirname "${BASH_SOURCE[0]}")/hatchzip-install.sh"
+
 claude mcp add chrome-devtools npx chrome-devtools-mcp@latest
 
 # mpv DUMMY

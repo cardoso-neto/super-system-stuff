@@ -135,22 +135,10 @@ claude() {
   command claude "${args[@]}" "$@"
 }
 alias cc='claude'
-# Bypass cliproxy: --settings outranks the proxy URL and apiKeyHelper in
-# ~/.claude/settings.json, so auth falls back to the keychain OAuth account
-# that claude-switch selects.
-claude-direct() (
-  unset ANTHROPIC_BASE_URL ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN
-  claude --settings '{"env":{"ANTHROPIC_BASE_URL":"https://api.anthropic.com"},"apiKeyHelper":""}' "$@"
-)
-alias ccd='claude-direct'
 ccnext() { claude-switch && claude -c "$@" }
 
 # codex
 alias codex='codex --yolo'
-# Bypass cliproxy: the built-in openai provider authenticates with
-# ~/.codex/auth.json (`codex login`) instead of the proxy's client key.
-codex-direct() { codex -c model_provider=openai "$@" }
-alias cxd='codex-direct'
 
 # pi
 alias pi-grok='pi --provider xai --model grok-4.5'
@@ -181,3 +169,5 @@ alias ta-quick='uvx --from "git+ssh://git@bitbucket.org/thoughtfulautomation/ta-
 
 # bun completions
 [ -s "/Users/neicardosoneto/.bun/_bun" ] && source "/Users/neicardosoneto/.bun/_bun"
+
+[ ! -r "$HOME/.config/cliproxyapi/aliases.sh" ] || . "$HOME/.config/cliproxyapi/aliases.sh"

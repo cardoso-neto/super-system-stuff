@@ -15,6 +15,28 @@ case "${1:-}" in
 esac
 
 state_dir="$HOME/Library/Caches/machine-autoupdate"
+reporter="$(dirname "$0")/../../../shared/t3-findings/report.sh"
+work_dir=""
+current_step=""
+finish() {
+  local status=$?
+  if [[ -n "$work_dir" ]]; then
+    if [[ "$status" -ne 0 && ! -s "$work_dir/failures" ]]; then
+      {
+        printf 'Machine updater on %s: %s(exit %s)\n' "$(hostname)" "$current_step" "$status"
+        if [[ -f "$work_dir/step" ]]; then tail -n 100 "$work_dir/step"; fi
+      } >> "$work_dir/failures"
+    fi
+    if [[ -s "$work_dir/failures" ]]; then
+      /bin/bash "$reporter" < "$work_dir/failures" || echo "Failure report remains queued for T3."
+    else
+      /bin/bash "$reporter" --flush || echo "Pending failure reports could not reach T3."
+    fi
+    rm -rf "$work_dir"
+  fi
+  rm -f "$state_dir/lock"
+}
+
 if ! "$dry_run"; then
   power=$(/usr/bin/pmset -g ps) || exit 1
   if [[ "$power" != *"'AC Power'"* ]]; then
@@ -23,35 +45,56 @@ if ! "$dry_run"; then
   fi
   mkdir -p "$state_dir" || exit 1
   /usr/bin/shlock -p "$$" -f "$state_dir/lock" || exit 0
-  trap 'rm -f "$state_dir/lock"' EXIT
+  trap finish EXIT
   trap 'exit 130' INT
   trap 'exit 143' TERM
+  work_dir=$(mktemp -d "$state_dir/run.XXXXXX") || exit 1
 fi
 
 failures=0
+record_failure() {
+  local result=$1 output=$2
+  shift 2
+  echo "FAILED (exit $result)"
+  failures=$((failures + 1))
+  {
+    printf 'Machine updater on %s: ' "$(hostname)"
+    printf '%q ' "$@"
+    printf '(exit %s)\n' "$result"
+    tail -n 100 "$output"
+    printf '\n'
+  } >> "$work_dir/failures"
+}
+
 run() {
+  local result
   printf '\n[%s]' "$(date '+%F %T %Z')"
   printf ' %q' "$@"
   printf '\n'
   if "$dry_run"; then return; fi
-  if "$@" </dev/null; then
+  printf -v current_step '%q ' "$@"
+  "$@" </dev/null 2>&1 | tee "$work_dir/step"
+  result=${PIPESTATUS[0]}
+  if [[ "$result" -eq 0 ]]; then
     echo "OK"
   else
-    result=$?
-    echo "FAILED (exit $result)"
-    failures=$((failures + 1))
+    record_failure "$result" "$work_dir/step" "$@"
   fi
+  return "$result"
 }
 
 update_casks() {
-  local outdated cask metadata
+  local outdated cask metadata result
   if "$dry_run"; then
     echo "Update all outdated casks, checking actual app versions and using native updaters for Docker and Windscribe, and relaunching T3 Code if it was running."
     return
   fi
-  if ! outdated=$(brew outdated --cask --greedy --quiet); then
-    echo "FAILED to list outdated casks"
-    failures=$((failures + 1))
+  if outdated=$(brew outdated --cask --greedy --quiet 2> "$work_dir/casks.stderr"); then
+    cat "$work_dir/casks.stderr" >&2
+  else
+    result=$?
+    cat "$work_dir/casks.stderr" >&2
+    record_failure "$result" "$work_dir/casks.stderr" brew outdated --cask --greedy --quiet
     return
   fi
   while IFS= read -r cask; do
@@ -77,7 +120,7 @@ update_casks() {
 upgrade_cask_and_relaunch() {
   local cask=$1 bundle_id=$2 was_running
   was_running=$(app_is_running "$bundle_id")
-  run brew upgrade --no-ask --cask --greedy --no-quit "$cask"
+  run brew upgrade --no-ask --cask --greedy --no-quit "$cask" || return
   [[ "$was_running" == true ]] && run relaunch_app "$bundle_id"
 }
 
@@ -105,9 +148,11 @@ run npm install --global --include=optional t3@latest
 run t3 update --channel stable --yes --base-dir "$HOME/.t3"
 if [[ -x "$HOME/.local/bin/claude" ]]; then run "$HOME/.local/bin/claude" update; fi
 if [[ -x "$HOME/.grok/bin/grok" ]]; then run "$HOME/.grok/bin/grok" update --stable; fi
+if [[ -x "$HOME/.local/bin/muse" ]]; then
+  run env MUSE_NO_AUTO_UPDATE=0 MUSE_SYNC_UPDATE=1 MUSE_UPDATE_INTERVAL_SECONDS=0 "$HOME/.local/bin/muse" --version
+fi
 if [[ -x "$HOME/.bun/bin/bun" ]]; then run "$HOME/.bun/bin/bun" upgrade; fi
 run uv tool upgrade --all
-run pipx upgrade-all
 run brew cleanup
 
 echo "Finished: $failures failed steps."

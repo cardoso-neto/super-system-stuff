@@ -1,0 +1,8 @@
+{
+  "upgradeStatus": 23,
+  "laterStatus": 0,
+  "failures": 1,
+  "exit": 1,
+  "commands": ["brew upgrade --no-ask --cask --greedy --no-quit t3-code", "later_step"],
+  "failureExits": [23]
+}

@@ -1,0 +1,8 @@
+{
+  "upgradeStatus": 0,
+  "laterStatus": 0,
+  "failures": 0,
+  "exit": 0,
+  "commands": ["brew upgrade --no-ask --cask --greedy --no-quit t3-code", "relaunch_app com.t3tools.t3code", "later_step"],
+  "failureExits": []
+}

@@ -1,0 +1,5 @@
+{
+  "exit": 1,
+  "contains": ["Machine updater on ", "(exit 23)", "failed-step-stdout", "failed-step-stderr"],
+  "excludes": ["successful-step-output", "later-successful-step-output"]
+}

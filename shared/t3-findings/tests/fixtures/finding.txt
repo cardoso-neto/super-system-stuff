@@ -1,0 +1,6 @@
+Reporter failed while processing "quoted text" and a backslash: \
+Literal shell input: $HOME $(printf unexpected) `printf unexpected`
+
+Unicode detail: ação → pending.
+
+
